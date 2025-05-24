@@ -1,14 +1,14 @@
-import { useState, FormEvent, ChangeEvent } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import toast from "react-hot-toast";
 
-interface Props {
+interface SearchBarProps {
   onSubmit: (query: string) => void;
 }
 
-export const SearchBar = ({ onSubmit }: Props) => {
+export const SearchBar = ({ onSubmit }: SearchBarProps) => {
   const [query, setQuery] = useState<string>("");
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!query.trim()) {
       toast.error("Please enter a search term");
@@ -16,6 +16,10 @@ export const SearchBar = ({ onSubmit }: Props) => {
     }
     onSubmit(query);
     setQuery("");
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
   };
 
   return (
@@ -27,9 +31,7 @@ export const SearchBar = ({ onSubmit }: Props) => {
           autoFocus
           placeholder="Search images and photos"
           value={query}
-          onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setQuery(e.target.value)
-          }
+          onChange={handleChange}
         />
         <button type="submit">Search</button>
       </form>

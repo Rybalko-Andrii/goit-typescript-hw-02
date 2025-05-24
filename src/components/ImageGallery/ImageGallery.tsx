@@ -1,17 +1,20 @@
+import React from "react";
 import { ImageCard } from "../ImageCard/ImageCard";
-import { UnsplashImage } from "../types";
+import { UnsplashImage } from "../Api/Api";
 
-interface Props {
+interface ImageGalleryProps {
   images: UnsplashImage[];
-  onImageClick: (img: UnsplashImage) => void;
+  onImageClick: (image: UnsplashImage) => void;
 }
 
-export const ImageGallery = ({ images, onImageClick }: Props) => (
-  <ul>
-    {images.map((img) => (
-      <li key={img.id}>
-        <ImageCard image={img} onClick={onImageClick} />
-      </li>
-    ))}
-  </ul>
-);
+export const ImageGallery = ({ images, onImageClick }: ImageGalleryProps) => {
+  return (
+    <ul>
+      {images.map((img) => (
+        <li key={img.id}>
+          <ImageCard image={img} onClick={onImageClick} />
+        </li>
+      ))}
+    </ul>
+  );
+};

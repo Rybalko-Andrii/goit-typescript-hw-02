@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import { Toaster } from "react-hot-toast";
-import { getPhotos } from "../Api/Api";
+import { getPhotos, UnsplashImage } from "../Api/Api";
 import { SearchBar } from "../SearchBar/SearchBar";
 import { ImageGallery } from "../ImageGallery/ImageGallery";
 import { Loader } from "../Loader/Loader";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 import { LoadMoreBtn } from "../LoadMoreBtn/LoadMoreBtn";
 import { ImageModal } from "../ImageModal/ImageModal";
-import { UnsplashImage } from "../types";
 
 export default function App() {
   const [images, setImages] = useState<UnsplashImage[]>([]);
@@ -28,9 +27,12 @@ export default function App() {
       try {
         setIsLoading(true);
         const data = await getPhotos(query, page);
-        setImages((prev) => [...prev, ...data.results]);
+        setImages((prev) =>
+          page === 1 ? data.results : [...prev, ...data.results]
+        );
         setTotalPages(data.total_pages);
-      } catch {
+        setError(null);
+      } catch (err) {
         setError("Something went wrong");
       } finally {
         setIsLoading(false);
@@ -48,10 +50,12 @@ export default function App() {
   };
 
   const handleLoadMore = () => setPage((p) => p + 1);
+
   const openModal = (img: UnsplashImage) => {
     setSelectedImage(img);
     setIsModalOpen(true);
   };
+
   const closeModal = () => setIsModalOpen(false);
 
   return (

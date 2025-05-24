@@ -1,12 +1,15 @@
-import { UnsplashImage } from "../types";
+import React from "react";
+import { UnsplashImage } from "../Api/Api";
 
-interface Props {
+interface ImageCardProps {
   image: UnsplashImage;
-  onClick: (img: UnsplashImage) => void;
+  onClick: (image: UnsplashImage) => void;
 }
 
-export const ImageCard = ({ image, onClick }: Props) => (
-  <div onClick={() => onClick(image)}>
-    <img src={image.urls.small} alt={image.alt_description} />
-  </div>
-);
+export const ImageCard = ({ image, onClick }: ImageCardProps) => {
+  return (
+    <div onClick={() => onClick(image)} style={{ cursor: "pointer" }}>
+      <img src={image.urls.small} alt={image.alt_description ?? "image"} />
+    </div>
+  );
+};

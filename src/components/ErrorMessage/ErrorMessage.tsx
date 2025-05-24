@@ -1,5 +1,7 @@
-interface Props {
+import React from "react";
+
+interface ErrorMessageProps {
   text: string;
 }
 
-export const ErrorMessage = ({ text }: Props) => <p>{text}</p>;
+export const ErrorMessage = ({ text }: ErrorMessageProps) => <p>{text}</p>;
