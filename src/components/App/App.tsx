@@ -7,16 +7,19 @@ import { Loader } from "../Loader/Loader";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 import { LoadMoreBtn } from "../LoadMoreBtn/LoadMoreBtn";
 import { ImageModal } from "../ImageModal/ImageModal";
+import { UnsplashImage } from "../types";
 
 export default function App() {
-  const [images, setImages] = useState([]);
-  const [query, setQuery] = useState("");
-  const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [totalPages, setTotalPages] = useState(0);
+  const [images, setImages] = useState<UnsplashImage[]>([]);
+  const [query, setQuery] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<UnsplashImage | null>(
+    null
+  );
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   useEffect(() => {
     if (!query) return;
@@ -27,7 +30,7 @@ export default function App() {
         const data = await getPhotos(query, page);
         setImages((prev) => [...prev, ...data.results]);
         setTotalPages(data.total_pages);
-      } catch (err) {
+      } catch {
         setError("Something went wrong");
       } finally {
         setIsLoading(false);
@@ -37,7 +40,7 @@ export default function App() {
     fetchImages();
   }, [query, page]);
 
-  const handleSearch = (newQuery) => {
+  const handleSearch = (newQuery: string) => {
     setQuery(newQuery);
     setPage(1);
     setImages([]);
@@ -45,7 +48,7 @@ export default function App() {
   };
 
   const handleLoadMore = () => setPage((p) => p + 1);
-  const openModal = (img) => {
+  const openModal = (img: UnsplashImage) => {
     setSelectedImage(img);
     setIsModalOpen(true);
   };

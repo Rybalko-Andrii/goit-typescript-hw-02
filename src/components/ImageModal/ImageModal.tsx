@@ -1,6 +1,13 @@
 import Modal from "react-modal";
+import { UnsplashImage } from "../types";
 
-export const ImageModal = ({ isOpen, onClose, image }) => {
+interface Props {
+  isOpen: boolean;
+  onClose: () => void;
+  image: UnsplashImage | null;
+}
+
+export const ImageModal = ({ isOpen, onClose, image }: Props) => {
   if (!image) return null;
 
   return (
